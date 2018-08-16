@@ -13,7 +13,7 @@ demo_desc = "Cycle RBG at different rates using sin/cos";
 
 
 static const char *
-demo_link = "http://www.google.com";
+demo_link = "http://republicofalmost.com/2018/08/25/gl_hello_world.html";
 
 
 /* ---------------------------------------------------- [ Demo Interface ] -- */
@@ -24,27 +24,15 @@ static struct change_color {
         float r, dr;
         float g, dg;
         float b, db;
-
-        GLuint vao;
 } demo = {0};
 
 
 static int 
 demo_start()
 {
-        demo.r = 1.f;
-        demo.dr = 0.004f;
-
-        demo.g = 0.5f;
-        demo.dg = 0.008f;
-
-        demo.b = 1.f;
-        demo.db = 0.016f;
-
-        /*
-        glGenVertexArrays(1, &demo.vao);
-        glBindVertexArray(demo.vao);
-        */
+        demo.r = 1.f; demo.dr = 0.004f;
+        demo.g = 0.5f; demo.dg = 0.008f;
+        demo.b = 1.f; demo.db = 0.016f;
 
         return 1;
 }
@@ -75,7 +63,6 @@ demo_tick()
 static int 
 demo_end()
 {
-        /*glDeleteVertexArrays(1, &demo.vao);*/
         return 1;
 }
 

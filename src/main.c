@@ -1,8 +1,6 @@
-#include <SDL2/SDL.h>
-#include <stdio.h>
 
 #ifdef __EMSCRIPTEN__
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include <emscripten.h>
 #endif
 
@@ -10,8 +8,12 @@
 #include <OpenGL/gl3.h>
 #endif
 
+#include <SDL2/SDL.h>
+#include <stdio.h>
+
 /* comment out one demo to run */
-#include "color_change.c"
+/* #include "color_change.c" */
+#include "cube_rotate.c"
 
 
 /* ----------------------------------------------------- [ SDL Interface ] -- */
@@ -21,6 +23,7 @@
 struct sdl_app {
         SDL_Window *window;
         SDL_GLContext *gl_context;
+        GLuint vao;
 } app = {0};
 
 
@@ -67,6 +70,10 @@ app_start()
         SDL_GL_MakeCurrent(app.window, app.gl_context);
         SDL_GL_SetSwapInterval(1);
 
+        #ifndef __EMSCRIPTEN__
+        glGenVertexArrays(1, &app.vao);
+        #endif
+
         return app.window ? 1 : 0;
 }
 
@@ -74,6 +81,10 @@ app_start()
 int
 app_tick()
 {
+        #ifndef __EMSCRIPTEN__
+        glBindVertexArray(app.vao);
+        #endif
+
         /* demo draws */
         demo_tick();
 
@@ -102,7 +113,11 @@ app_tick()
 
 void
 app_end()
-{
+{ 
+        #ifndef __EMSCRIPTEN__
+        glDeleteVertexArrays(1, &app.vao);
+        #endif
+
         SDL_DestroyWindow(app.window);
         SDL_Quit();
 }
